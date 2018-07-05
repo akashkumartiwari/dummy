@@ -1,0 +1,85 @@
+
+ 
+	import java.util.List;
+
+import org.openqa.selenium.By;
+	import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Reporter;
+import org.testng.annotations.BeforeTest;
+	import org.testng.annotations.Test;
+
+	import junit.framework.Assert;
+
+	public class Test_NG {
+		WebDriver driver;
+		
+		@BeforeTest
+		public void setDiver()
+		{
+			System.setProperty("webdriver.chrome.driver", "C:\\Users\\akashtiwari\\Downloads\\chromedriver_win32\\chromedriver.exe");
+			 
+			driver=new ChromeDriver();
+		}
+		
+		
+       @Test
+       public void test1()
+       {
+    	   driver.get("http://10.0.1.86/tatoc");
+    	   driver.findElement(By.linkText("Basic Course"));
+    	   textwrittenornot();
+    	   driver.findElement(By.linkText("Basic Course")).click();
+    	      
+       }
+       public void textwrittenornot()
+       {
+			Assert.assertTrue("basic course is not displayed", driver.findElement(By.linkText("Basic Course")).isDisplayed());
+                 System.out.println("Basic course is written");
+       }
+       
+       @Test
+		public void test2() {
+			driver.findElement(By.className("greenbox"));
+		
+			verifyGreenBox();
+			verifyOnlyOneGreenBoxIsDisplayed();
+			
+		}
+		
+		public void verifyGreenBox()
+		{
+			Assert.assertTrue("Green box is not displayed", driver.findElement(By.className("greenbox")).isDisplayed());
+			Reporter.log("Green box is displayed");
+		}
+		
+		
+		public void verifyOnlyOneGreenBoxIsDisplayed()
+		{
+			int countGreen=0, countRed=0;
+			List<WebElement> boxes=driver.findElements(By.cssSelector("div[class*='box']"));
+			for(WebElement e: boxes)
+			{
+				String color=e.getAttribute("class");
+				if(color.equals("redbox"))
+					countRed++;
+				else if(color.equals("greenbox"))
+					countGreen++;
+			}
+			System.out.println("Number of red boxes: "+countRed);
+			System.out.println("Number of green boxes: "+countGreen);
+			//Assert.assertTrue("**[ASSERT FAILED]: Green box is more than 1", countGreen==1);
+			Assert.assertEquals(1, countGreen);
+			System.out.println("Green box is only 1 as expected");
+		}
+		
+		//@Test
+		//public void test3()
+		//{   
+			
+		//	Assert.assertTrue("two green box", driver.findElement(By.className("greenbox"));
+		//	driver.findElement(By.className("greenbox")).click();
+		//}
+	}
+

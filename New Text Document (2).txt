@@ -1,0 +1,82 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+
+
+public class test_test {
+WebDriver driver;
+testfunc obj;
+@BeforeClass
+
+  public void launchUrl() {
+	System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\\\akashtiwari\\\\Downloads\\\\chromedriver_win32\\\\chromedriver.exe");
+	driver = new ChromeDriver();
+	obj = new testfunc(driver);
+	driver.get("https://hris.qainfotech.com/login.php");
+	driver.findElement(By.cssSelector("a[href='#panel1']")).click();
+	//driver.manage().window().maximize();
+	
+  }
+@Test(priority=10)
+public void firstCase() throws InterruptedException {
+	obj.start();
+	Thread.sleep(10000);
+	String str2=driver.findElement(By.xpath("//div[@class='date-picker-strip p-l-0']")).getText();
+	System.out.println(str2);
+	Assert.assertEquals(str2, "Timesheet  Akash Kumar Tiwari");
+	String str = driver.findElement(By.xpath("//div[@id='dv_2018-06-26']//child::span[@class='ng-binding'][1]")).getText();
+	System.out.println(str);
+	
+	Assert.assertEquals(str, "08:11");
+	
+}
+@Test(priority=20)
+public void secondCase()
+{
+	String str_exp="QAIT Resource Management Tool";
+	String str_act=driver.getTitle();
+	Assert.assertEquals(str_act,str_exp );
+	
+}
+@Test(priority=30)
+public void thirdCase() {
+	Assert.assertTrue(driver.findElement(By.xpath("//img[@src='https://hris.qainfotech.com:8086/assets/img/HRIS_logo.png']")).isDisplayed(), "NOT displayed");
+}
+@AfterClass
+public void closeUrl() {
+	driver.quit();
+}
+}
+
+
+
+
+
+
+
+AKASH
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class testfunc {
+	WebDriver driver;
+	
+	public testfunc(WebDriver driver) {
+		this.driver=driver;
+	}
+	public void start() {
+		driver.findElement(By.id("txtUserName")).sendKeys("akashtiwari");
+		driver.findElement(By.id("txtPassword")).sendKeys("Akash@321#");
+		driver.findElement(By.cssSelector("input[type='submit']")).click();
+		
+	}
+   /* public void login() {
+    	Assert.
+    }*/
+}
